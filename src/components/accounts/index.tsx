@@ -2,9 +2,11 @@ import "./index.css";
 import { Account } from '../../../types';
 import { AccountItem } from "./item";
 import { useEffect, useState } from 'react';
+import { Error } from '../error';
 
 export const Accounts = () => {
   const [accounts, setAccounts] = useState<Account[]>([])
+  const [hasError, setHasError] = useState(false)
 
   useEffect(() => {
     const getAccounts = async () => {
@@ -12,7 +14,7 @@ export const Accounts = () => {
         const res = await fetch('/api/accounts')
         setAccounts(await res.json())
       } catch (e) {
-        console.error(e)
+        setHasError(true)
       }
     }
 
@@ -23,9 +25,9 @@ export const Accounts = () => {
     <>
       <h1 className="align-left">Your accounts</h1>
       <div className="accounts">
-        {accounts?.map((account) => (
+        {!hasError ? accounts?.map((account) => (
           <AccountItem account={account} key={account.account_id} />
-        ))}
+        )) : <Error/>}
       </div>
     </>
   );

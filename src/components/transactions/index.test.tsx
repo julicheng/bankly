@@ -58,13 +58,27 @@ describe("transaction history",  () => {
 
   test('should show the loading state when transactions have not yet loaded', () => {
     server.use(
-      rest.get("/api/accounts", (req, res, ctx) =>
-        res(ctx.delay(3000))
+      rest.get("/api/transactions", (req, res, ctx) =>
+        res(ctx.delay(2000))
       )
     );
     
     render(<TransactionHistory />);
 
     expect(screen.getByText("Loading...")).toBeInTheDocument();
+  })
+
+  test('should show the error state when there is a transactions error', async () => {
+    server.use(
+      rest.get("/api/transactions", (req, res, ctx) =>
+        res(ctx.status(500))
+      )
+    );
+
+    render(<TransactionHistory />);
+
+    await waitFor(() => {
+      expect(screen.getByText("An error has occurred. Please contact support for further assistance.")).toBeInTheDocument();
+    })
   })
 });

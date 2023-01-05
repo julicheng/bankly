@@ -4,6 +4,7 @@ import { Transaction as TransactionType } from "../../../types";
 import { Transaction } from "./item";
 import { useEffect, useState } from 'react';
 import { Loading } from '../loading';
+import { Error } from '../error';
 
 const isExpense = (transaction: TransactionType) =>
   transaction.amount.value < 0;
@@ -49,6 +50,7 @@ const Income = ({ transactions }: { transactions: TransactionType[] }) => {
 
 export const TransactionHistory = () => {
   const [transactions, setTransactions] = useState<TransactionType[]>([])
+  const [hasError, setHasError] = useState(false)
 
   useEffect(() => {
     const getTransactions = async () => {
@@ -56,7 +58,7 @@ export const TransactionHistory = () => {
         const res = await fetch('/api/transactions')
         setTransactions(await res.json())
       } catch (e) {
-        console.error(e)
+        setHasError(true)
       }
     }
 
@@ -73,15 +75,19 @@ export const TransactionHistory = () => {
         </Tabs.List>
 
         {
-          transactions.length ?
-            <>
-              <Tabs.Content className="TabsContent" value="expenses">
-                <Expenses transactions={transactions} />
-              </Tabs.Content>
-              <Tabs.Content className="TabsContent" value="income">
-                <Income transactions={transactions} />
-              </Tabs.Content>
-            </> : <Loading/>
+          hasError ?
+            <Error /> :
+            transactions.length ?
+              <>
+                <Tabs.Content className="TabsContent" value="expenses">
+                  <Expenses transactions={transactions} />
+                </Tabs.Content>
+                <Tabs.Content className="TabsContent" value="income">
+                  <Income transactions={transactions} />
+                </Tabs.Content>
+              </>
+              :
+              <Loading />
         }
       </Tabs.Root>
     </>
