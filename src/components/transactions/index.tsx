@@ -3,6 +3,7 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { Transaction as TransactionType } from "../../../types";
 import { Transaction } from "./item";
 import { useEffect, useState } from 'react';
+import { Loading } from '../loading';
 
 const isExpense = (transaction: TransactionType) =>
   transaction.amount.value < 0;
@@ -27,7 +28,7 @@ const Expenses = ({ transactions }: { transactions: TransactionType[] }) => {
   );
 };
 
-const Income = ({ transactions }: { transactions: TransactionType[] })=> {
+const Income = ({ transactions }: { transactions: TransactionType[] }) => {
   return (
     <table aria-label="Income">
       <thead>
@@ -71,12 +72,17 @@ export const TransactionHistory = () => {
           <Tabs.Trigger value="income">Income</Tabs.Trigger>
         </Tabs.List>
 
-        <Tabs.Content className="TabsContent" value="expenses">
-          <Expenses transactions={transactions} />
-        </Tabs.Content>
-        <Tabs.Content className="TabsContent" value="income">
-          <Income transactions={transactions} />
-        </Tabs.Content>
+        {
+          transactions.length ?
+            <>
+              <Tabs.Content className="TabsContent" value="expenses">
+                <Expenses transactions={transactions} />
+              </Tabs.Content>
+              <Tabs.Content className="TabsContent" value="income">
+                <Income transactions={transactions} />
+              </Tabs.Content>
+            </> : <Loading/>
+        }
       </Tabs.Root>
     </>
   );

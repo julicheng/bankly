@@ -1,8 +1,10 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import { rest } from 'msw';
 import { TransactionHistory } from ".";
+import { server } from '../../../jest.setup';
 
-describe("transaction history", () => {
-  test("the expenses tab should be shown by default", () => {
+describe("transaction history",  () => {
+  test("the expenses tab should be shown by default", async () => {
     render(<TransactionHistory />);
 
     expect(screen.getByText("Transaction History")).toBeInTheDocument();
@@ -12,10 +14,15 @@ describe("transaction history", () => {
     });
 
     expect(expensesTabTrigger).toHaveAttribute("data-state", "active");
-
-    const expensesTable = screen.getByRole("table", {
-      name: "Expenses",
-    });
+    
+    let expensesTable;
+    
+    // Need to wait for the expenses table to appear to then check for its existence
+    await waitFor(() => {
+      expensesTable = screen.getByRole("table", {
+        name: "Expenses",
+      });
+    })
 
     expect(expensesTable).toBeInTheDocument();
     expect(screen.getByText("-20.25")).toBeInTheDocument();
@@ -48,4 +55,16 @@ describe("transaction history", () => {
     expect(expensesTabTrigger).toHaveAttribute("data-state", "inactive");
     expect(screen.queryByText("-20.25")).not.toBeInTheDocument();
   });
+
+  test('should show the loading state when transactions have not yet loaded', () => {
+    server.use(
+      rest.get("/api/accounts", (req, res, ctx) =>
+        res(ctx.delay(3000))
+      )
+    );
+    
+    render(<TransactionHistory />);
+
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+  })
 });
