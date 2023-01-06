@@ -1,39 +1,35 @@
+import moment from 'moment';
 import type { Transaction as TransactionType } from "../../../types";
 import { Avatar } from "./avatar";
+import { formatCurrency } from '../../helpers/formatCurrency';
 
 type Props = {
   transaction: TransactionType;
 };
 
 export const Transaction = ({ transaction }: Props) => {
-  const formattedDate = () => {
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const {category, amount, date, description} = transaction;
 
-    const d = new Date(transaction.date);
-
-    return `${d.getDate()} ${months[d.getMonth()]} ${d.getUTCFullYear()}`
-  }
-
-  const formattedValue = () => {
-    return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(transaction.amount.value)
+  const formatDate = () => {
+    return moment(date).format('Do MMMM YYYY')
   }
 
   return (
     <tr>
       <td>
         <div className="transaction-detail">
-          <Avatar name={transaction.description} />
+          <Avatar name={description} />
           <div className="transaction-description">
-            {transaction.description}
-            <div className="transaction-category">{transaction.category}</div>
+            {description}
+            <div className="transaction-category">{category.replace(/_/g, ' ')}</div>
           </div>
         </div>
       </td>
       <td>
-        <div>{formattedDate()}</div>
+        <div>{formatDate()}</div>
       </td>
       <td className="transaction-amount">
-        <div className="amount">{formattedValue()}</div>
+        <div className="amount">{formatCurrency(amount.value)}</div>
       </td>
     </tr>
   );
