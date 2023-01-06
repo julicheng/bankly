@@ -1,10 +1,12 @@
 :root {
   --background-900: #0e0e11;
+  --background-850: #14141A;
   --background-800: #1e1e27;
   --primary-900: #ffffff;
   --primary-300: #88869f;
   --link: #646cff;
 
+  --spacer-xsmall: 0.25rem;
   --spacer-small: 0.5rem;
   --spacer-medium: 1rem;
   --spacer-large: 1.5rem;
@@ -49,14 +51,16 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: 1.5em;
+  line-height: 30px;
+  font-weight: 500;
+  margin-top: 3rem;
 }
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  border: 1px solid #282834;
+  padding: 0.5em 1.5em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
@@ -73,6 +77,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 button[data-state="active"] {
+  border: 1px solid transparent;
   --background-900: #d9d9d9;
   --primary-300: #000000;
 }

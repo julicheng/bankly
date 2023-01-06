@@ -12,9 +12,9 @@
   user-select: none;
   width: var(--spacer-xxlarge);
   height: var(--spacer-xxlarge);
-  font-size: var(--font-xlarge);
+  font-size: var(--font-large);
   font-weight: 600;
-  border-radius: var(--spacer-smallall);
+  border-radius: var(--spacer-small);
   border: 2px solid var(--primary-300);
   background-color: var(--background-900);
   text-transform: uppercase;
@@ -25,24 +25,31 @@
 
 table {
   background-color: var(--background-800);
-  border-radius: var(--spacer-smallall);
+  border-radius: var(--spacer-small);
   width: 100%;
   text-align: left;
 }
 
 td {
-  padding: var(--spacer-medium);
+  padding: var(--spacer-small);
 }
 
 th {
-  color: var(--primary-900);
+  color: var(--primary-300);
   border-bottom: 1px solid var(--primary-300);
-  padding: var(--spacer-medium);
+  padding: var(--spacer-small);
   text-align: left;
+  font-weight: 400;
 }
 
 .transaction-detail {
   display: grid;
   grid-template-columns: min-content 1fr;
   gap: var(--spacer-medium);
+}
+
+.transaction-category {
+  color: var(--primary-300);
+  text-transform: capitalize;
+  font-size: 14px;
 }

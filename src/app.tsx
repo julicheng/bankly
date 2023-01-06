@@ -6,10 +6,7 @@ const App = () => (
   <div className="app">
     <div className="app__row">
       <a href="https://www.thisisbud.com/" target="_blank" rel="noreferrer">
-        <img src="/bud.svg" className="logo" alt="Bud logo" />
-      </a>
-      <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-        <img src={reactLogo} className="logo react" alt="React logo" />
+        <img src="/bankly.svg" className="logo" alt="Bankly logo" />
       </a>
     </div>
     <Home />

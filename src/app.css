@@ -5,7 +5,7 @@
 }
 
 .logo {
-  height: var(--spacer-medium);
+  height: 30px;
   will-change: filter;
 }
 

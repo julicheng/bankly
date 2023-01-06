@@ -12,7 +12,7 @@ const isIncome = (transaction: TransactionType) => transaction.amount.value > 0;
 
 const Expenses = ({ transactions }: { transactions: TransactionType[] }) => {
   return (
-    <table aria-label="Expenses">
+    <table aria-label="Expenses" cellSpacing={0}>
       <thead>
         <tr>
           <th>Description</th>
@@ -31,7 +31,7 @@ const Expenses = ({ transactions }: { transactions: TransactionType[] }) => {
 
 const Income = ({ transactions }: { transactions: TransactionType[] }) => {
   return (
-    <table aria-label="Income">
+    <table aria-label="Income" cellSpacing={0}>
       <thead>
         <tr>
           <th>Description</th>
